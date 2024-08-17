@@ -4,7 +4,7 @@ const UserProfile = (props) => {
       <h2
         style={{
           backgroundColor: "grey",
-          color: "white",
+          color: "blue",
           textAlign: "center",
           padding: "10px",
           borderRadius: "20px",
