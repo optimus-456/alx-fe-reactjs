@@ -28,7 +28,7 @@ const UserProfile = (props) => {
           fontSize: "25px",
         }}
       >
-        Age: {props.age}
+        Age: <span style={{ fontWeight: "bold" }}>{props.age}</span>
       </p>
       <p
         style={{
