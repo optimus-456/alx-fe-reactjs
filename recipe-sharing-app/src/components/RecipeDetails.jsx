@@ -9,6 +9,8 @@ const RecipeDetails = () => {
     state.recipes.find((recipe) => recipe.id === Number(recipeId))
   );
 
+  console.log("RecipeDetails rendered for recipeId:", recipeId); // Debugging
+
   if (!recipe) return <div>Recipe not found</div>;
 
   return (
