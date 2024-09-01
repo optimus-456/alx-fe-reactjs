@@ -21,7 +21,7 @@ function App() {
             />
           }
         />
-        <Route path="/post/:postId" element={<BlogPost />} />
+        <Route path="/blog/:id" element={<BlogPost />} />
       </Routes>
     </Router>
   );
