@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// Base URL for GitHub's API
-const BASE_URL = "https://api.github.com";
+// Base URL for GitHub's Search Users API
+const SEARCH_USERS_URL = "https://api.github.com/search/users?q=";
 
 // Function to fetch users based on advanced search criteria
 export const fetchAdvancedUserData = async ({
@@ -28,8 +28,8 @@ export const fetchAdvancedUserData = async ({
     query += ` repos:>=${minRepos}`; // Search by minimum repository count
   }
 
-  // GitHub Search API endpoint with pagination
-  const url = `${BASE_URL}/search/users?q=${query}&page=${page}`;
+  // Complete URL for GitHub Search API with pagination
+  const url = `${SEARCH_USERS_URL}${query}&page=${page}`;
 
   try {
     // Perform the API request
