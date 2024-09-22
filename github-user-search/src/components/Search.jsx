@@ -38,10 +38,11 @@ const Search = () => {
 
       {loading && <p>Loading...</p>}
       {error && <p>Looks like we can't find the user.</p>}
-      {userData && (
+      {userData && !error && (
         <div>
           <img src={userData.avatar_url} alt="User Avatar" width="100" />
-          <h2>{userData.name}</h2>
+          <h2>{userData.name || "No Name Available"}</h2>
+          <p>Username: {userData.login}</p>
           <p>
             <a
               href={userData.html_url}
