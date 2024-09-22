@@ -9,20 +9,23 @@ const Search = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [page, setPage] = useState(1); // Pagination state
+  const [hasMore, setHasMore] = useState(true); // More results state
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(false);
-    setUsers([]);
 
     try {
       const data = await fetchAdvancedUserData({
         username,
         location,
         minRepos,
+        page,
       });
-      setUsers(data.items);
+      setUsers((prevUsers) => [...prevUsers, ...data.items]); // Append new users
+      setHasMore(data.items.length > 0); // Check if more results are available
     } catch (err) {
       setError(true);
     } finally {
@@ -89,6 +92,16 @@ const Search = () => {
           </div>
         ))}
       </div>
+
+      {/* Load More button for pagination */}
+      {hasMore && !loading && (
+        <button
+          className="bg-green-500 text-white p-2 mt-4 rounded"
+          onClick={() => setPage(page + 1)} // Increment page to load more users
+        >
+          Load More
+        </button>
+      )}
     </div>
   );
 };
