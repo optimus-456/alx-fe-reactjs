@@ -1,6 +1,5 @@
-// components/Search.jsx
 import React, { useState } from "react";
-import { fetchAdvancedUserData } from "../services/githubService";
+import { fetchUserData } from "../services/githubService"; // Import fetchUserData
 
 const Search = () => {
   const [username, setUsername] = useState("");
@@ -9,8 +8,8 @@ const Search = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [page, setPage] = useState(1); // Pagination state
-  const [hasMore, setHasMore] = useState(true); // More results state
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,14 +17,31 @@ const Search = () => {
     setError(false);
 
     try {
-      const data = await fetchAdvancedUserData({
+      // Fetch data using the fetchUserData function from githubService.js
+      const data = await fetchUserData({ username, location, minRepos, page });
+      setUsers(data.items); // Update the users list with the fetched data
+      setHasMore(data.items.length > 0); // Check if there are more users to load
+    } catch (err) {
+      setError(true); // Set error state if API request fails
+    } finally {
+      setLoading(false); // Stop the loading indicator
+    }
+  };
+
+  // Function to handle "Load More" for pagination
+  const loadMore = async () => {
+    setPage(page + 1);
+    setLoading(true);
+
+    try {
+      const data = await fetchUserData({
         username,
         location,
         minRepos,
-        page,
+        page: page + 1,
       });
-      setUsers((prevUsers) => [...prevUsers, ...data.items]); // Append new users
-      setHasMore(data.items.length > 0); // Check if more results are available
+      setUsers((prevUsers) => [...prevUsers, ...data.items]);
+      setHasMore(data.items.length > 0);
     } catch (err) {
       setError(true);
     } finally {
@@ -34,70 +50,70 @@ const Search = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="max-w-lg mx-auto mt-8 p-4">
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="Enter GitHub username"
+          placeholder="Search by username"
           className="w-full p-2 border border-gray-300 rounded"
         />
         <input
           type="text"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
-          placeholder="Location (optional)"
+          placeholder="Search by location"
           className="w-full p-2 border border-gray-300 rounded"
         />
         <input
           type="number"
           value={minRepos}
           onChange={(e) => setMinRepos(e.target.value)}
-          placeholder="Minimum repositories (optional)"
+          placeholder="Minimum repositories"
           className="w-full p-2 border border-gray-300 rounded"
         />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          Search
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white p-2 rounded"
+          disabled={loading}
+        >
+          {loading ? "Loading..." : "Search"}
         </button>
       </form>
 
-      {loading && <p>Loading...</p>}
       {error && (
-        <p>Looks like we can't find any users matching the criteria.</p>
+        <p className="text-red-500 mt-4">Looks like we can't find the user</p>
       )}
 
-      <div className="mt-8">
-        {users.map((user) => (
-          <div key={user.id} className="p-4 border-b">
-            <img
-              src={user.avatar_url}
-              alt="User Avatar"
-              width="50"
-              className="inline-block"
-            />
-            <div className="inline-block ml-4">
-              <h3 className="font-bold">{user.login}</h3>
-              <p>Location: {user.location || "N/A"}</p>
-              <p>Repositories: {user.public_repos}</p>
-              <a
-                href={user.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500"
-              >
-                Visit Profile
-              </a>
-            </div>
-          </div>
-        ))}
+      <div className="mt-4">
+        {users.length > 0 && (
+          <ul>
+            {users.map((user) => (
+              <li key={user.id} className="p-4 border-b border-gray-300">
+                <img
+                  src={user.avatar_url}
+                  alt={user.login}
+                  className="w-10 h-10 rounded-full"
+                />
+                <p>{user.login}</p>
+                <a
+                  href={user.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View Profile
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
-      {/* Load More button for pagination */}
       {hasMore && !loading && (
         <button
+          onClick={loadMore}
           className="bg-green-500 text-white p-2 mt-4 rounded"
-          onClick={() => setPage(page + 1)} // Increment page to load more users
         >
           Load More
         </button>

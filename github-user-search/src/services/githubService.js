@@ -1,44 +1,32 @@
 import axios from "axios";
 
-// Base URL for GitHub's Search Users API
-const SEARCH_USERS_URL = "https://api.github.com/search/users?q=";
-
-// Function to fetch users based on advanced search criteria
-export const fetchAdvancedUserData = async ({
+// Function to fetch user data from GitHub API with advanced search capabilities
+export const fetchUserData = async ({
   username,
   location,
   minRepos,
   page = 1,
 }) => {
-  // Construct the query for GitHub's Search API
-  let query = "";
+  const query = [];
 
-  // Append username search if provided
-  if (username) {
-    query += `${username} in:login`; // Search by username
-  }
+  // Construct the search query based on provided parameters
+  if (username) query.push(`user:${username}`);
+  if (location) query.push(`location:${location}`);
+  if (minRepos) query.push(`repos:>=${minRepos}`);
 
-  // Append location search if provided
-  if (location) {
-    query += ` location:${location}`; // Search by location
-  }
-
-  // Append minimum repository filter if provided
-  if (minRepos) {
-    query += ` repos:>=${minRepos}`; // Search by minimum repository count
-  }
-
-  // Complete URL for GitHub Search API with pagination
-  const url = `${SEARCH_USERS_URL}${query}&page=${page}`;
+  // Join the query parameters into a single string
+  const queryString = query.join("+");
 
   try {
-    // Perform the API request
-    const response = await axios.get(url);
+    // Make the API request to GitHub's search users endpoint
+    const response = await axios.get(
+      `https://api.github.com/search/users?q=${queryString}&page=${page}`
+    );
 
-    // Return the fetched data
+    // Return the data from the response
     return response.data;
   } catch (error) {
-    console.error("Error fetching data from GitHub API:", error);
+    // Handle errors by throwing them to be caught in the component
     throw error;
   }
 };
