@@ -2,7 +2,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "./components/Home";
-import SearchResults from "./components/SearchResults";
+import Search from "./components/Search";
 
 const App = () => {
   return (
@@ -23,7 +23,7 @@ const App = () => {
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/search" element={<SearchResults />} />
+            <Route path="/search" element={<Search />} />
           </Routes>
         </main>
         <footer>
