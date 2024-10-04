@@ -5,12 +5,17 @@ const SearchBar = () => {
   return (
     <div className="container">
       <div className="search">
-        <input type="text" placeholder="Enter City Name" />
+        <input
+          type="text"
+          placeholder="Enter City Name"
+          //   onChange={(e) => setName(e.target.value)}
+        />
         <button>
           <img
             src="/public/Images/search.png"
             alt="image"
             style={{ width: "30px", height: "30px" }}
+            // onClick={handleClick}
           />
         </button>
       </div>

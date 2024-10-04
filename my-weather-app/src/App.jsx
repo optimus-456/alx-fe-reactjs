@@ -1,7 +1,6 @@
-import { useState } from "react";
 import "./App.css";
 import SearchBar from "./components/SearchBar";
-import WeatherCard from "./components/WeatherCard";
+import axios from "axios";
 
 function App() {
   return (
