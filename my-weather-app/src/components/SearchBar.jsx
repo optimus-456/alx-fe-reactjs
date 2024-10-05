@@ -1,25 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import WeatherCard from "./WeatherCard";
 
 const SearchBar = () => {
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("London");
+
+  const handleClick = () => {
+    setLocation(name); // Updates the location state with the entered city name
+  };
+
   return (
     <div className="container">
       <div className="search">
         <input
           type="text"
           placeholder="Enter City Name"
-          //   onChange={(e) => setName(e.target.value)}
+          onChange={(e) => setName(e.target.value)}
         />
-        <button>
+        <button onClick={handleClick}>
+          {" "}
+          {/* Attach handleClick directly here */}
           <img
-            src="/public/Images/search.png"
-            alt="image"
+            src="/Images/search.png"
+            alt="search"
             style={{ width: "30px", height: "30px" }}
-            // onClick={handleClick}
           />
         </button>
       </div>
-      <WeatherCard />
+      <WeatherCard location={location} /> {/* Pass location to WeatherCard */}
     </div>
   );
 };
