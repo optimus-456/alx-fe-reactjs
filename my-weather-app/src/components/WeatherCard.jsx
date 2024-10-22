@@ -20,17 +20,17 @@ const WeatherCard = ({ location }) => {
         .then((res) => {
           let imagePath = "";
           if (res.data.weather[0].main === "Clouds") {
-            imagePath = "/public/Images/cloud.png";
+            imagePath = "/Images/cloud.png";
           } else if (res.data.weather[0].main === "Clear") {
-            imagePath = "/public/Images/clear.png";
+            imagePath = "/Images/clear.png";
           } else if (res.data.weather[0].main === "Rain") {
-            imagePath = "/publi/Images/rain.png";
+            imagePath = "/Images/rain.png";
           } else if (res.data.weather[0].main === "Drizzle") {
-            imagePath = "/public/Images/drizzle.png";
+            imagePath = "/Images/drizzle.png";
           } else if (res.data.weather[0].main === "Mist") {
-            imagePath = "/public/Images/mist.png";
+            imagePath = "/Images/mist.png";
           } else if (res.data.weather[0].main === "Snow") {
-            imagePath = "/public/Images/snow.png";
+            imagePath = "/Images/snow.png";
           }
 
           setData({
@@ -60,14 +60,18 @@ const WeatherCard = ({ location }) => {
           <h2>{data.location}</h2>
           <div className="details">
             <div className="col">
-              <img src="/public/Images/humidity.png" alt="" />
+              <img src="/Images/humidity.png" alt="" />
               <div>
                 <p>{Math.round(data.humidity)}%</p>
                 <p>Humidity</p>
               </div>
             </div>
             <div className="col">
-              <img src="/public/Images/wind.png" alt="" />
+              <img
+                src="
+              /Images/wind.png"
+                alt=""
+              />
               <div>
                 <p>{Math.round(data.speed)}km/h</p>
                 <p>Wind</p>
