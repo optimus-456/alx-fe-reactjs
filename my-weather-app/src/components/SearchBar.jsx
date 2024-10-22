@@ -3,7 +3,7 @@ import WeatherCard from "./WeatherCard";
 
 const SearchBar = () => {
   const [name, setName] = useState("");
-  const [location, setLocation] = useState("London");
+  const [location, setLocation] = useState("Nigeria");
 
   const handleClick = () => {
     setLocation(name); // Updates the location state with the entered city name
@@ -18,8 +18,6 @@ const SearchBar = () => {
           onChange={(e) => setName(e.target.value)}
         />
         <button onClick={handleClick}>
-          {" "}
-          {/* Attach handleClick directly here */}
           <img
             src="/Images/search.png"
             alt="search"
@@ -27,7 +25,7 @@ const SearchBar = () => {
           />
         </button>
       </div>
-      <WeatherCard location={location} /> {/* Pass location to WeatherCard */}
+      <WeatherCard location={location} />
     </div>
   );
 };

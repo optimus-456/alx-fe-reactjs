@@ -5,7 +5,7 @@ import ErrorMessage from "./ErrorMessage"; // Import ErrorMessage
 const WeatherCard = ({ location }) => {
   const [data, setData] = useState({
     celcius: 20,
-    location: "London",
+    location: "Nigeria",
     humidity: 10,
     speed: 2,
     image: "",
@@ -20,17 +20,17 @@ const WeatherCard = ({ location }) => {
         .then((res) => {
           let imagePath = "";
           if (res.data.weather[0].main === "Clouds") {
-            imagePath = "/Images/cloud.png";
+            imagePath = "/public/Images/cloud.png";
           } else if (res.data.weather[0].main === "Clear") {
-            imagePath = "/Images/clear.png";
+            imagePath = "/public/Images/clear.png";
           } else if (res.data.weather[0].main === "Rain") {
-            imagePath = "/Images/rain.png";
+            imagePath = "/publi/Images/rain.png";
           } else if (res.data.weather[0].main === "Drizzle") {
-            imagePath = "/Images/drizzle.png";
+            imagePath = "/public/Images/drizzle.png";
           } else if (res.data.weather[0].main === "Mist") {
-            imagePath = "/Images/mist.png";
+            imagePath = "/public/Images/mist.png";
           } else if (res.data.weather[0].main === "Snow") {
-            imagePath = "/Images/snow.png";
+            imagePath = "/public/Images/snow.png";
           }
 
           setData({
@@ -51,7 +51,7 @@ const WeatherCard = ({ location }) => {
 
   return (
     <div className="weather">
-      {error ? ( // Conditionally render ErrorMessage if there's an error
+      {error ? ( //ErrorMessage if there's an error
         <ErrorMessage message={error} />
       ) : (
         <div className="Weather-info">
